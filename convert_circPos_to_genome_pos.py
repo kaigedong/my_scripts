@@ -1,5 +1,34 @@
+# -*- coding: utf-8 -*-
+"""
+Created on 2019-05-05
+
+@author: kaigedong
+"""
+
+
 # 将 circRNA 的相对坐标转为在基因组上的绝对坐标
 # 比如给定环形RNA 第120 - 133 个坐标，将其转为基因组上的绝对坐标，可能为好几段，将这几段都输出来，以bed格式或者ref_flat格式。
+
+
+'''
+一个转录本表示成 bed 为上面，表示为 refFlat 为下面，两者等价的。
+
+chr10	1085359	1102656	NM_001317955	0	-	1087126	1090083	0	6	2085,131,93,173,78,408,	0,3212,3881,4579,14748,16889,
+IDI1	NM_001317955	chr10	-	1085359	1102656	1087126	1090083	6	1085359,1088571,1089240,1089938,1100107,1102248,	1087444,1088702,1089333,1090111,1100185,1102656,
+
+提取某几个exon为circRNA的序列之后，有将在 circRNA 上的相对位置转化为绝对位置的需求。
+
+要求：
+输入为 refFlat 和 环形RNA上的坐标，输出为 绝对坐标。
+
+比如：
+输入为 refFlat的格式，环形RNA为exon 2 - 3，环形上的坐标为A-B，要求输出A-B转化为绝对坐标后是什么？
+
+注意：
+circ的相对坐标是左开右闭的，要想包括最后一个碱基，可对输入的坐标 手动+1
+
+'''
+
 
 
 def circPos_to_genomePos(exon_s, exon_e, circ_s, circ_e, circ_pos_s, circ_pose):
@@ -61,3 +90,19 @@ def circPos_to_genomePos(exon_s, exon_e, circ_s, circ_e, circ_pos_s, circ_pose):
     # 则相对坐标的区间为：
     circ_in_genome_pos = exon_pos[ exon_pos.index(circ_s_in_chrome) : exon_pos.index(circ_e_in_chrome) + 1]
     return(circ_in_genome_pos)
+
+
+# 代码测试：
+
+exon_s = "1085359,1088571,1089240,1089938,1100107,1102248,"
+exon_e = "1087444,1088702,1089333,1090111,1100185,1102656,"
+
+circ_s = "1088571"
+circ_e = "1100185"
+
+circ_pos_s = "127"
+circ_pos_e = "192"
+
+
+a = circPos_to_genomePos(exon_s, exon_e, circ_s, circ_e, circ_pos_s, circ_pos_e)
+print('a is: ', a)
