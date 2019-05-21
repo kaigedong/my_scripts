@@ -49,3 +49,28 @@
       }
   }
 ```
+
+9. Palindrome Number
+```
+1. 
+impl Solution {
+    pub fn is_palindrome(x: i32) -> bool {
+        let mut rev_x = String::new();
+        for c in x.to_string().chars().rev() { // 数字转成字符串，反向迭代
+            rev_x.push(c);
+        }
+        
+        if x.to_string() == rev_x {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+2.
+impl Solution {
+    pub fn is_palindrome(x: i32) -> bool {
+        x.to_string() == x.to_string().chars().rev().collect::<String>() // 迭代器转为字符串，并利用了函数式编程的特性！
+    }
+}
+```
